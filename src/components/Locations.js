@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
 
-const Locations = () => {
+const Locations = ({ setUploadLocation, SchoolLocation }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey:
       "AIzaSyCKxtYtxwR8Cb3PdpYbngtqtUnxN4x-JcI&callback=initMap&v=weekly",
@@ -11,33 +11,58 @@ const Locations = () => {
     return <h1>Loading.....</h1>;
   }
 
-  return <Map />;
+  return (
+    <Map
+      setUploadLocation={setUploadLocation}
+      SchoolLocation={SchoolLocation}
+    />
+  );
 };
-const Map = () => {
-  const [location, setLocation] = useState({ lat: 32.636049, lng: 73.007063 });
+const Map = ({ setUploadLocation, SchoolLocation }) => {
+  const [location, setLocation] = useState({ lat: 34.197885, lng: 73.230449 });
+  const [markerLocation, setMarkerLocation] = useState("");
+  const [markerChange, setMarkerChaneg] = useState(false);
   useEffect(() => {
-    console.log("Happende");
-    navigator.geolocation.getCurrentPosition((resp) =>
-      setLocation({
-        lat: resp.coords.latitude,
-        lng: resp.coords.longitude,
-      })
-    );
+    if (SchoolLocation == "") {
+      console.log(SchoolLocation);
+      navigator.geolocation.getCurrentPosition((resp) => {
+        setLocation({
+          lat: resp.coords.latitude,
+          lng: resp.coords.longitude,
+        });
+        setUploadLocation({
+          lat: resp.coords.latitude,
+          lng: resp.coords.longitude,
+        });
+        console.log(resp);
+      });
+    } else {
+      setLocation(SchoolLocation);
+      setUploadLocation(SchoolLocation);
+    }
   }, []);
-
-  const [markerPosition, setMarkerPOsition] = useState({
-    lat: 0,
-    lng: 0,
-  });
+  useEffect(() => {
+    if (markerChange) {
+      setUploadLocation(markerLocation);
+    }
+  }, [markerLocation]);
   return (
     <GoogleMap
       ref={(mapref) => mapref}
       zoom={17}
       center={location}
       mapContainerClassName={"w-full h-96 rounded-xl"}
-      onClick={(values) => {}}
+      onClick={(values) => {
+        setMarkerLocation({
+          lat: values.latLng.lat(),
+          lng: values.latLng.lng(),
+        });
+      }}
     >
-      <MarkerF position={location} title={"Your Location"} />
+      <MarkerF
+        position={markerLocation || location || SchoolLocation}
+        title={"Your Location"}
+      />
     </GoogleMap>
   );
 };

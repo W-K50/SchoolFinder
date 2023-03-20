@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const SearchBar = () => {
+const SearchBar = ({ setSearchNameBack, searchNameBack }) => {
+  const [searchName, setSearchName] = useState("");
+
+  useEffect(() => {
+    setSearchNameBack(searchName);
+  }, [searchName]);
   return (
     <div class="flex items-center justify-center my-10">
       <div class="relative w-1/2">
@@ -25,6 +30,10 @@ const SearchBar = () => {
           id="search-navbar"
           class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Search for Schools"
+          value={searchNameBack}
+          onChange={(e) => {
+            setSearchName(e.target.value);
+          }}
         />
       </div>
       <button

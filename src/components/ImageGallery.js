@@ -1,28 +1,40 @@
+import { GetGalleryImage } from "@/Config/Urls";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const ImageGallery = ({ images }) => {
-  const [image, setImage] = useState("");
+  const [imageState, setImageState] = useState("");
+
+  const AuthState = useSelector((state) => state.Auth_Reducer.users);
+  const SchoolProfileState = useSelector(
+    (state) => state.Auth_Reducer.SchoolProfile
+  );
 
   useEffect(() => {
-    setImage(images[0].original);
-  }, []);
+    if (images) {
+      setImageState(images[0]);
+    }
+  }, [images]);
 
   return (
     <div className="w-full">
-      <div class="w-full rounded-lg  overflow-hidden">
-        <img src={image} class={"w-full h-full"} />
+      <div class="w-full h-full overflow-hidden items-center justify-center flex">
+        <img
+          src={GetGalleryImage(SchoolProfileState?.AuthId, imageState)}
+          class={"w-full md:w-1/2 md:h-96 rounded-lg"}
+        />
       </div>
       <div class="flex flex-wrap">
-        {images.map((image, index) => {
+        {images?.map((image, index) => {
           return (
             <div class="mr-2 mt-2" key={index}>
               <img
-                src={image.original}
-                width={"200px"}
+                src={GetGalleryImage(SchoolProfileState?.AuthId, image)}
+                width={"150px"}
                 class={
                   "rounded-lg border-4 border-transparent hover:cursor-pointer hover:border-blue-500"
                 }
-                onClick={() => setImage(image.original)}
+                onClick={() => setImageState(image)}
               />
             </div>
           );
