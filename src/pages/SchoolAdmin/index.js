@@ -1,3 +1,4 @@
+import WarningAlert from "@/components/Alerts/WarningAlert";
 import ImageGallery from "@/components/ImageGallery";
 import Locations from "@/components/Locations";
 import NavBar from "@/components/NavBar";
@@ -11,24 +12,34 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuth_Data } from "Store/Auth_State/Auth_Actions";
+import { getAuth_Data } from "@/Store/Auth_State/Auth_Actions";
 
 const Detail = () => {
   const AuthState = useSelector((state) => state.Auth_Reducer.users);
   const SchoolProfileState = useSelector(
-    (state) => state.Auth_Reducer.users?.SchoolProfile
+    (state) => state.Auth_Reducer.users.SchoolProfile
   );
 
   const dispatch = useDispatch();
   const router = useRouter();
 
+  useEffect(() => {
+    const AuthID = localStorage.getItem("AuthID");
+    if (AuthID !== null) {
+      return;
+    } else {
+      router.replace("/Auth");
+    }
+  }, []);
+
   const getProfile = async () => {
+    const AuthID = localStorage.getItem("AuthID");
     await axios
       .post(getProfileData, {
-        authID: AuthState?.id, //AuthState.response?.id
+        authID: AuthID || AuthState?.id, //AuthState.response?.id
       })
       .then((resp) => {
-        console.log(resp.data);
+        // console.log(resp.data);
         dispatch(getAuth_Data(resp.data.response));
       })
       .catch((error) => {
@@ -42,9 +53,9 @@ const Detail = () => {
   const DetailText = ({ label, labelText, button = false }) => {
     return (
       <div>
-        <p class="text-xl text-gray-400 dark:text-white">{label}</p>
+        <p class="text-xl text-gray-900 font-medium">{label}</p>
         {button && (
-          <div class="flex items-center">
+          <div class="flex items-center mt-2">
             <a
               href={DownloadPerposal(
                 AuthState?.id,
@@ -70,7 +81,7 @@ const Detail = () => {
             </a>
           </div>
         )}
-        <p class="text-2xl text-gray-100 dark:text-white">{labelText}</p>
+        <p class="text-xl text-gray-600 dark:text-white mt-2">{labelText}</p>
       </div>
     );
   };
@@ -78,17 +89,26 @@ const Detail = () => {
   const [logoImageError, setlogoImageError] = useState(true);
   const [coverImageError, setcoverImageError] = useState(true);
 
+  const [isEmailVerified, setEmailVerified] = useState(true);
+  // console.log(AuthState.emailVerified);`
   return (
     <div class="min-h-screen p-2">
+      {AuthState.emailVerified === "false" ? (
+        <WarningAlert
+          message={"Check your email for Verification"}
+          button
+          onClick={() => setEmailVerified(false)}
+        />
+      ) : null}
       <NavBar />
 
       <div>
-        <div class="h-80 w-full bg-slate-500 overflow-hidden ">
+        <div class="h-80 w-full overflow-hidden rounded-md ">
           <img
             class=" rounded-lg shadow-xl dark:shadow-gray-800 w-full"
             src={
               coverImageError
-                ? GetCoverImage(AuthState?.id, SchoolProfileState?.coverimgURL)
+                ? GetCoverImage(AuthState.id, SchoolProfileState?.coverimgURL)
                 : "https://picsum.photos/id/1019/1000/600/"
             }
             alt="image description"
@@ -114,7 +134,7 @@ const Detail = () => {
 
       <div class="container px-5 md:mx-auto bg-transparent backdrop-blur-md text-white p-10 border-2 border-gray-600 rounded-xl mt-14">
         <div class="w-full flex flex-col">
-          <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-200 md:text-5xl lg:text-5xl dark:text-white">
+          <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
             Your <span class="text-yellow-400 dark:text-blue-500">School</span>{" "}
             Profile.
           </h1>
@@ -204,6 +224,10 @@ const Detail = () => {
             labelText={SchoolProfileState?.city || "-"}
           />
           <DetailText
+            label={"Area"}
+            labelText={SchoolProfileState?.area || "-"}
+          />
+          <DetailText
             label={"Address"}
             labelText={SchoolProfileState?.address || "-"}
           />
@@ -222,15 +246,14 @@ const Detail = () => {
           />
         </div>
         <h5 class="text-2xl font-normal dark:text-white py-5">Gallery</h5>
-
         <div class="col-span-1 md:col-span-2">
-          <ImageGallery images={SchoolProfileState?.galleryImages} />
+          <ImageGallery images={AuthState.SchoolProfile?.galleryImages} />
         </div>
 
         <h5 class="text-2xl font-normal dark:text-white py-5">Location</h5>
         <Locations
           setUploadLocation={() => {}}
-          SchoolLocation={SchoolProfileState?.location}
+          SchoolLocation={AuthState.SchoolProfile?.location}
         />
       </div>
       <div class="w-full flex flex-col items-center my-5">

@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getAuth_Data,
   getSchoolProfile_Data,
-} from "Store/Auth_State/Auth_Actions";
+} from "@/Store/Auth_State/Auth_Actions";
 
 const Detail = () => {
   const AuthState = useSelector((state) => state.Auth_Reducer.users);
@@ -25,12 +25,15 @@ const Detail = () => {
   const router = useRouter();
 
   const getProfile = async () => {
+    const exploreSchoolID = localStorage.getItem("exploreSchoolID");
     await axios
       .post(getProfileData, {
-        authID: SchoolProfileState.AuthId, //AuthState.response?.id
+        authID: exploreSchoolID || SchoolProfileState.AuthId, //AuthState.response?.id
       })
       .then((resp) => {
         console.log(resp.data);
+        dispatch(getAuth_Data(resp.data.response));
+
         dispatch(getSchoolProfile_Data(resp.data.response.SchoolProfile));
       })
       .catch((error) => {
@@ -44,9 +47,9 @@ const Detail = () => {
   const DetailText = ({ label, labelText, button = false }) => {
     return (
       <div>
-        <p class="text-xl text-gray-400 dark:text-white">{label}</p>
+        <p class="text-xl text-gray-900  font-medium">{label}</p>
         {button && (
-          <div class="flex items-center">
+          <div class="flex items-center mt-2">
             <a
               href={DownloadPerposal(
                 SchoolProfileState?.AuthId,
@@ -72,7 +75,7 @@ const Detail = () => {
             </a>
           </div>
         )}
-        <p class="text-2xl text-gray-100 dark:text-white">{labelText}</p>
+        <p class="text-xl text-gray-600 dark:text-white mt-2">{labelText}</p>
       </div>
     );
   };
@@ -85,9 +88,9 @@ const Detail = () => {
       <NavBar />
 
       <div>
-        <div class="h-80 w-full bg-slate-500 overflow-hidden ">
+        <div class="h-80 w-full overflow-hidden ">
           <img
-            class=" rounded-lg shadow-xl dark:shadow-gray-800 w-full"
+            class=" rounded-lg shadow-xl  w-full"
             src={
               coverImageError
                 ? GetCoverImage(
@@ -122,11 +125,12 @@ const Detail = () => {
 
       <div class="container px-5 md:mx-auto bg-transparent backdrop-blur-md text-white p-10 border-2 border-gray-600 rounded-xl mt-14">
         <div class="w-full flex flex-col">
-          <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-200 md:text-5xl lg:text-5xl dark:text-white">
-            Your <span class="text-yellow-400 dark:text-blue-500">School</span>{" "}
+          <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
+            <span class="text-yellow-400 dark:text-blue-500">School</span>{" "}
             Profile.
           </h1>
         </div>
+        'dm\'
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <DetailText
             label={"School Name"}
@@ -152,7 +156,9 @@ const Detail = () => {
           </div>
           <DetailText
             label={"Academic"}
-            labelText={SchoolProfileState?.academic || "-"}
+            labelText={
+              SchoolProfileState?.academic.map((ace) => `${ace} /`) || "-"
+            }
           />
           <DetailText
             label={"Curriculum"}
@@ -161,6 +167,10 @@ const Detail = () => {
           <DetailText
             label={"Mobile"}
             labelText={SchoolProfileState?.mobile || "-"}
+          />
+          <DetailText
+            label={"Area"}
+            labelText={SchoolProfileState?.area || "-"}
           />
           <DetailText
             label={"City"}
@@ -185,15 +195,13 @@ const Detail = () => {
           />
         </div>
         <h5 class="text-2xl font-normal dark:text-white py-5">Gallery</h5>
-
         <div class="col-span-1 md:col-span-2">
-          <ImageGallery images={SchoolProfileState?.galleryImages} />
+          <ImageGallery images={AuthState.SchoolProfile?.galleryImages} />
         </div>
-
         <h5 class="text-2xl font-normal dark:text-white py-5">Location</h5>
         <Locations
           setUploadLocation={() => {}}
-          SchoolLocation={SchoolProfileState?.location}
+          SchoolLocation={AuthState.SchoolProfile?.location}
         />
       </div>
     </div>

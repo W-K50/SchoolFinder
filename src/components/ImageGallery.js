@@ -7,7 +7,7 @@ const ImageGallery = ({ images }) => {
 
   const AuthState = useSelector((state) => state.Auth_Reducer.users);
   const SchoolProfileState = useSelector(
-    (state) => state.Auth_Reducer.SchoolProfile
+    (state) => state.Auth_Reducer?.SchoolProfile
   );
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const ImageGallery = ({ images }) => {
     <div className="w-full">
       <div class="w-full h-full overflow-hidden items-center justify-center flex">
         <img
-          src={GetGalleryImage(SchoolProfileState?.AuthId, imageState)}
+          src={GetGalleryImage(AuthState?.id, imageState)}
           class={"w-full md:w-1/2 md:h-96 rounded-lg"}
         />
       </div>
@@ -29,7 +29,7 @@ const ImageGallery = ({ images }) => {
           return (
             <div class="mr-2 mt-2" key={index}>
               <img
-                src={GetGalleryImage(SchoolProfileState?.AuthId, image)}
+                src={GetGalleryImage(AuthState?.id, image)}
                 width={"150px"}
                 class={
                   "rounded-lg border-4 border-transparent hover:cursor-pointer hover:border-blue-500"

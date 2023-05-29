@@ -1,3 +1,7 @@
+import axios from "axios";
+
+const BASE_URL = "http://localhost:5000/api";
+
 // Will remove
 export const CoverPhotoUrl = "http://localhost:5000/api/CoverPhotoUpload";
 export const LogoPhotoUrl = "http://localhost:5000/api/LogoPhotoUpload";
@@ -37,3 +41,21 @@ export const getGalleryImage = (schoolID, imageAddress) =>
 export const AddSchoolProfile = `http://localhost:5000/api/addSchoolProfile`;
 export const UpdateSchoolProfile = `http://localhost:5000/api/UpdateSchoolProfile`;
 export const GetAllProfiles = `http://localhost:5000/api/getAllSchoolProfile`;
+
+// Change Password
+export const changePassword = `http://localhost:5000/api/changePassword`;
+export const sendResetPasswordEmail = `http://localhost:5000/api/forgetPasswordEmail`;
+
+// Recommand System
+export const recommandSystem = `http://localhost:5000/api/recommandIncrement`;
+export const recommandSystemValue = `http://localhost:5000/api/recommandSystemValue`;
+
+export default axios.create({
+  baseURL: BASE_URL,
+});
+
+export const axiosPrivate = axios.create({
+  baseURL: BASE_URL,
+  headers: { "Content-Type": "application/json" },
+  withCredentials: true,
+});

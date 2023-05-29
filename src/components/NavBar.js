@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -5,6 +6,8 @@ const NavBar = () => {
   const [dropMenu, setDropMenu] = useState(false);
 
   const AuthState = useSelector((state) => state.Auth_Reducer.users);
+
+  const router = useRouter();
 
   return (
     <>
@@ -25,12 +28,28 @@ const NavBar = () => {
             </span>
           </a>
           <div class="flex items-center md:order-2">
-            <button
-              type="button"
-              class="flex mr-3 text-sm bg-blue-600 rounded-md md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 p-3 text-white"
-            >
-              Log Out
-            </button>
+            {AuthState.id ? (
+              <button
+                type="button"
+                class="flex mr-3 text-sm bg-blue-600 rounded-md md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 p-3 text-white"
+                onClick={() => {
+                  localStorage.removeItem("AuthID");
+                  location.assign("/Auth");
+                }}
+              >
+                Log Out
+              </button>
+            ) : (
+              <button
+                type="button"
+                class="flex mr-3 text-sm bg-blue-600 rounded-md md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 p-3 text-white"
+                onClick={() => {
+                  location.assign("/Auth");
+                }}
+              >
+                Login as Admin
+              </button>
+            )}
 
             <button
               data-collapse-toggle="mobile-menu-2"
@@ -67,25 +86,25 @@ const NavBar = () => {
             <ul class="flex flex-col p-2 mt-4 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:text-xl md:font-medium md:border-1  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
                 <a
-                  href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 md:hover:text-gray-100 bg-blue-700 rounded md:bg-transparent  md:p-0 dark:text-white"
+                  class="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 md:hover:text-blue-600 bg-blue-700 rounded md:bg-transparent  md:p-0 dark:text-white"
                   aria-current="page"
+                  onClick={() => router.push("/")}
                 >
                   Home
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  class="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  onClick={() => router.push("/aboutUs")}
                 >
                   About
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Services
                 </a>
@@ -93,15 +112,15 @@ const NavBar = () => {
               <li>
                 <a
                   href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Pricing
                 </a>
-              </li>
+              </li> */}
               <li>
                 <a
-                  href="#"
-                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  class="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-600 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  onClick={() => router.push("/contactUs")}
                 >
                   Contact
                 </a>

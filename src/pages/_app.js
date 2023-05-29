@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
-import RootReducer from "Store/RootReducer";
+import RootReducer from "@/Store/RootReducer";
 
 const store = createStore(RootReducer, applyMiddleware(thunk));
 
