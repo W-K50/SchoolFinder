@@ -8,7 +8,7 @@ const SuccessAlert = ({ message, onClick }) => {
     >
       <div>
         <span class="font-medium">Success </span>
-        <span>Changes Added Successfully.</span>
+        <span>{message ? message : "Changes Added Successfully."}</span>
       </div>
       <svg
         onClick={onClick}

@@ -71,7 +71,6 @@ const Authentication = () => {
         username: username,
         email: email,
         password: password,
-        role: role,
       })
       .then((resp) => {
         console.log(resp.data);
@@ -106,7 +105,7 @@ const Authentication = () => {
         setIsLoading(false);
         setErrorAlert(true);
         setSuccessAlert(false);
-        setErrorMessage(error.response.data.message);
+        setErrorMessage(error.response.data?.error.message);
       });
   };
 
@@ -183,6 +182,7 @@ const Authentication = () => {
                           })
                           .then((resp) => {
                             console.log(resp.data);
+                            setShowForgetEmail(false);
                           })
                           .catch((error) => {
                             console.log(error.response.data);

@@ -3,6 +3,7 @@ import ErrorAlert from "@/components/Alerts/ErrorAlert";
 import Locations from "@/components/Locations.js";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+
 import { useSelector } from "react-redux";
 import {
   DeletePhoto,
@@ -11,6 +12,8 @@ import {
   UpdateSchoolProfile,
 } from "../../../Config/Urls.js";
 import { useRouter } from "next/router.js";
+import ImageGallery from "@/components/ImageGallery";
+import Select from "react-select";
 
 const Edit = () => {
   const AuthState = useSelector((state) => state.Auth_Reducer.users);
@@ -65,6 +68,12 @@ const Edit = () => {
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
 
+  const [acadDropDown, setAcadDropDown] = useState(false);
+  const [areaDropDown, setAreaDropDown] = useState(false);
+
+  const [acadmicArray, setAcadmicArray] = useState([]); // Select array Academic
+  const [areaArray, setAreaArray] = useState(""); // Select Area
+
   // Setall data
   useEffect(() => {
     setschoolname(SchoolProfileState?.schoolname);
@@ -78,6 +87,8 @@ const Edit = () => {
     setaddress(SchoolProfileState?.address);
     setschoolCode(SchoolProfileState?.schoolCode);
     setFacebookURL(SchoolProfileState?.FacebookURL);
+    setAreaArray(SchoolProfileState?.area);
+    setAcadmicArray(SchoolProfileState?.academic);
   }, []);
 
   // cover photo ref
@@ -268,7 +279,7 @@ const Edit = () => {
   };
 
   const submitProfile = async () => {
-    console.log(location);
+    // console.log(location);
     await axios
       .post(UpdateSchoolProfile, {
         schoolProfileID: SchoolProfileState?.id,
@@ -277,7 +288,8 @@ const Edit = () => {
         email: email,
         mobile: mobile,
         websiteURL: websiteURL,
-        academic: academic,
+        academic: acadmicArray,
+        area: areaArray,
         curriculum: curriculum,
         city: city,
         location: location,
@@ -292,12 +304,6 @@ const Edit = () => {
         console.log(error.response.data.error);
       });
   };
-
-  const [acadDropDown, setAcadDropDown] = useState(false);
-  const [areaDropDown, setAreaDropDown] = useState(false);
-
-  const [acadmicArray, setAcadmicArray] = useState([]); // Select array Academic
-  const [areaArray, setAreaArray] = useState(""); // Select Area
 
   const area_name = [
     "Phul Gulab Road",
@@ -732,6 +738,51 @@ const Edit = () => {
                 areaDropDown ? "block absolute" : "hidden"
               }  bg-white divide-y divide-gray-100 rounded-lg shadow w-96 dark:bg-gray-700`}
             >
+              <input
+                autoComplete="on"
+                list="suggestions"
+                placeholder="Search Area"
+                className="text-black w-full p-5"
+                onChange={(e) => {
+                  // console.log("Selected", e.target.value);
+                  setAreaArray(e.target.value);
+                }}
+                onBlur={() => {
+                  setAreaDropDown(false);
+                }}
+              />
+              <datalist id="suggestions">
+                {area_name.map((area_, index) => {
+                  return (
+                    <option
+                      key={index}
+                      value={area_}
+                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-black "
+                    >
+                      {area_}
+                    </option>
+                  );
+                })}
+              </datalist>
+              {/* {area_name.map((area_, index) => {
+                return (
+                  <option
+                    key={index}
+                    value={area_}
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-black "
+                  >
+                    {area_}
+                  </option>
+                );
+              })} */}
+            </div>
+
+            {/* <div
+              id="dropdownDelay"
+              class={` z-10 max-h-48 overflow-y-scroll ${
+                areaDropDown ? "block absolute" : "hidden"
+              }  bg-white divide-y divide-gray-100 rounded-lg shadow w-96 dark:bg-gray-700`}
+            >
               <ul
                 class="py-2 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownDelayButton"
@@ -752,8 +803,8 @@ const Edit = () => {
                   );
                 })}
               </ul>
-            </div>
-            <input
+            </div> */}
+            {/* <input
               type="text"
               id="Area"
               class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -761,7 +812,7 @@ const Edit = () => {
               required
               // onChange={(event) => setcurriculum(event.target.value)}
               // value={curriculum}
-            />
+            /> */}
           </div>
 
           {/* <div>
@@ -986,11 +1037,17 @@ const Edit = () => {
             />
           </div>
         </div>
+        <div class="col-span-1 md:col-span-2">
+          <ImageGallery
+            images={AuthState.SchoolProfile?.galleryImages}
+            deletebtn={true}
+          />
+        </div>
         <h5 class="text-2xl font-normal dark:text-white py-5">Location</h5>
-        <Locations
+        {/* <Locations
           setUploadLocation={setLocation}
           SchoolLocation={SchoolProfileState?.location}
-        />
+        /> */}
         <div className="flex items-end justify-end w-full mt-10">
           {isLoading ? (
             <button

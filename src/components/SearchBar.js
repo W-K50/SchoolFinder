@@ -1,4 +1,3 @@
-import { Button } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
 
 const SearchBar = ({

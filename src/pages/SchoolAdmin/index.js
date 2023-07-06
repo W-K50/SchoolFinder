@@ -6,6 +6,7 @@ import {
   DownloadPerposal,
   GetCoverImage,
   GetLogoImage,
+  SendEmailVerification,
   getProfileData,
 } from "@/Config/Urls";
 import axios from "axios";
@@ -35,9 +36,13 @@ const Detail = () => {
   const getProfile = async () => {
     const AuthID = localStorage.getItem("AuthID");
     await axios
-      .post(getProfileData, {
-        authID: AuthID || AuthState?.id, //AuthState.response?.id
-      })
+      .post(
+        getProfileData,
+        {
+          authID: AuthID || AuthState?.id, //AuthState.response?.id
+        },
+        { withCredentials: true }
+      )
       .then((resp) => {
         // console.log(resp.data);
         dispatch(getAuth_Data(resp.data.response));
@@ -97,10 +102,24 @@ const Detail = () => {
         <WarningAlert
           message={"Check your email for Verification"}
           button
-          onClick={() => setEmailVerified(false)}
+          btnOnPress={async () => {
+            await axios
+              .post(SendEmailVerification, {
+                TargetEmail: AuthState.email, //
+                authID: AuthState.id,
+              })
+              .then((resp) => {
+                console.log("Email Sended");
+                console.log(resp.data);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }}
+          onClick={() => {}}
         />
       ) : null}
-      <NavBar />
+      <NavBar school={true} />
 
       <div>
         <div class="h-80 w-full overflow-hidden rounded-md ">
@@ -209,7 +228,9 @@ const Detail = () => {
           </div>
           <DetailText
             label={"Academic"}
-            labelText={SchoolProfileState?.academic || "-"}
+            labelText={
+              SchoolProfileState?.academic.map((ace) => `${ace} /`) || "-"
+            }
           />
           <DetailText
             label={"Curriculum"}
@@ -247,14 +268,17 @@ const Detail = () => {
         </div>
         <h5 class="text-2xl font-normal dark:text-white py-5">Gallery</h5>
         <div class="col-span-1 md:col-span-2">
-          <ImageGallery images={AuthState.SchoolProfile?.galleryImages} />
+          <ImageGallery
+            images={AuthState.SchoolProfile?.galleryImages}
+            deletebtn={false}
+          />
         </div>
 
         <h5 class="text-2xl font-normal dark:text-white py-5">Location</h5>
-        <Locations
+        {/* <Locations
           setUploadLocation={() => {}}
           SchoolLocation={AuthState.SchoolProfile?.location}
-        />
+        /> */}
       </div>
       <div class="w-full flex flex-col items-center my-5">
         <button

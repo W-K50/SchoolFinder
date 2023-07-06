@@ -33,7 +33,6 @@ const Detail = () => {
       .then((resp) => {
         console.log(resp.data);
         dispatch(getAuth_Data(resp.data.response));
-
         dispatch(getSchoolProfile_Data(resp.data.response.SchoolProfile));
       })
       .catch((error) => {

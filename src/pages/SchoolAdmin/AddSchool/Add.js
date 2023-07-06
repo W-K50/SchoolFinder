@@ -940,7 +940,7 @@ const Add = () => {
             </div> */}
         </div>
         <h5 class="text-2xl font-normal dark:text-white py-5">Location</h5>
-        <Locations setUploadLocation={setLocation} SchoolLocation={""} />
+        {/* <Locations setUploadLocation={setLocation} SchoolLocation={""} /> */}
 
         <div class="flex items-start py-6">
           <div class="flex items-center h-5">

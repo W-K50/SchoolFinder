@@ -1,54 +1,54 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "http://SchoolFinder.hostionic.com/api";
+const BASE_URL_IMG = "http://SchoolFinder.hostionic.com";
 
-// Will remove
-export const CoverPhotoUrl = "http://localhost:5000/api/CoverPhotoUpload";
-export const LogoPhotoUrl = "http://localhost:5000/api/LogoPhotoUpload";
+// Authentication (Confirm)
+export const Register = `${BASE_URL}/register`;
+export const Login = `${BASE_URL}/login`;
 
-//Manage Photos
-export const PhotoUpload = "http://localhost:5000/api/UploadPhoto";
-export const DeletePhoto = "http://localhost:5000/api/DeletePhotos";
+// Get All Data (Confirm)
+export const getProfileData = `${BASE_URL}/getall`;
 
-// Get Cover Image
+// Email Verification (Confirm)
+export const SendEmailVerification = `${BASE_URL}/emailVerification`;
+
+// School Profile (Confirm)
+export const AddSchoolProfile = `${BASE_URL}/addSchoolProfile`;
+export const UpdateSchoolProfile = `${BASE_URL}/UpdateSchoolProfile`;
+export const GetAllProfiles = `${BASE_URL}/getAllSchoolProfile`;
+
+//Manage Photos (Confirm)
+export const PhotoUpload = `${BASE_URL}/UploadPhoto`;
+export const DeletePhoto = `${BASE_URL}/DeletePhotos`;
+
+// Get Cover Image (Confirm)
 export const GetCoverImage = (schoolAuthID, imageAddress) =>
-  `http://localhost:5000/Images/${schoolAuthID}/SchoolCover/${imageAddress}`;
+  `${BASE_URL_IMG}/Images/${schoolAuthID}/SchoolCover/${imageAddress}`;
 
-// Get Logo Image
+// Get Logo Image (Confirm)
 export const GetLogoImage = (schoolAuthID, imageAddress) =>
-  `http://localhost:5000/Images/${schoolAuthID}/SchoolLogo/${imageAddress}`;
+  `${BASE_URL_IMG}/Images/${schoolAuthID}/SchoolLogo/${imageAddress}`;
 
-// Get Gallery Image
+// Get Gallery Image (Confirm)
 export const GetGalleryImage = (schoolAuthID, imageAddress) =>
-  `http://localhost:5000/Images/${schoolAuthID}/SchoolGallery/${imageAddress}`;
+  `${BASE_URL_IMG}/Images/${schoolAuthID}/SchoolGallery/${imageAddress}`;
 
-// Download Perposal
+// Download Perposal (Confirm)
 export const DownloadPerposal = (schoolAuthID, imageAddress) =>
-  `http://localhost:5000/Images/${schoolAuthID}/SchoolPerposal/${imageAddress}`;
+  `${BASE_URL_IMG}/Images/${schoolAuthID}/SchoolPerposal/${imageAddress}`;
 
-// Authentication
-export const Register = `http://localhost:5000/api/register`;
-export const Login = `http://localhost:5000/api/login`;
-
-// Get All Data
-export const getProfileData = `http://localhost:5000/api/getall`;
-
-// Retrive Images
+// Retrive Images (Confirm)
 export const getGalleryImage = (schoolID, imageAddress) =>
-  `http://localhost:5000/Images/${schoolID}/SchoolGallery/${imageAddress}`;
-
-// School Profile
-export const AddSchoolProfile = `http://localhost:5000/api/addSchoolProfile`;
-export const UpdateSchoolProfile = `http://localhost:5000/api/UpdateSchoolProfile`;
-export const GetAllProfiles = `http://localhost:5000/api/getAllSchoolProfile`;
+  `${BASE_URL_IMG}/Images/${schoolID}/SchoolGallery/${imageAddress}`;
 
 // Change Password
-export const changePassword = `http://localhost:5000/api/changePassword`;
-export const sendResetPasswordEmail = `http://localhost:5000/api/forgetPasswordEmail`;
+export const changePassword = `${BASE_URL}/changePassword`;
+export const sendResetPasswordEmail = `${BASE_URL}/forgetPasswordEmail`;
 
 // Recommand System
-export const recommandSystem = `http://localhost:5000/api/recommandIncrement`;
-export const recommandSystemValue = `http://localhost:5000/api/recommandSystemValue`;
+export const recommandSystem = `${BASE_URL}/recommandIncrement`;
+export const recommandSystemValue = `${BASE_URL}/recommandSystemValue`;
 
 export default axios.create({
   baseURL: BASE_URL,
@@ -59,3 +59,7 @@ export const axiosPrivate = axios.create({
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
+
+// Will remove
+export const CoverPhotoUrl = "http://localhost:5000/api/CoverPhotoUpload";
+export const LogoPhotoUrl = "http://localhost:5000/api/LogoPhotoUpload";

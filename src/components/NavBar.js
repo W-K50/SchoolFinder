@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-const NavBar = () => {
+const NavBar = ({ school }) => {
   const [dropMenu, setDropMenu] = useState(false);
 
   const AuthState = useSelector((state) => state.Auth_Reducer.users);
@@ -28,7 +28,7 @@ const NavBar = () => {
             </span>
           </a>
           <div class="flex items-center md:order-2">
-            {AuthState.id ? (
+            {school && AuthState.id ? (
               <button
                 type="button"
                 class="flex mr-3 text-sm bg-blue-600 rounded-md md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 p-3 text-white"
