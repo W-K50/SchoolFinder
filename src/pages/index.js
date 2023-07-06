@@ -1,9 +1,9 @@
+import React, { useState } from "react";
 import CardComponent from "@/components/CardComponent";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
-import React, { useState } from "react";
 
-const index = () => {
+const StartIndex = () => {
   const [clickToSearch, setClickToSearch] = useState(false);
 
   return (
@@ -61,5 +61,5 @@ const index = () => {
   );
 };
 
-export default index;
+export default StartIndex;
 // https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg
