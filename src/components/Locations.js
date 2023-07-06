@@ -4,7 +4,7 @@ import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
 const Locations = ({ setUploadLocation, SchoolLocation }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey:
-      "AIzaSyCKxtYtxwR8Cb3PdpYbngtqtUnxN4x-JcI&callback=initMap&v=weekly",
+      "",
   });
 
   if (!isLoaded) {
