@@ -94,7 +94,7 @@ const Detail = () => {
   const [logoImageError, setlogoImageError] = useState(true);
   const [coverImageError, setcoverImageError] = useState(true);
 
-  const [isEmailVerified, setEmailVerified] = useState(true);
+  // const [isEmailVerified, setEmailVerified] = useState(true);
   // console.log(AuthState.emailVerified);`
   return (
     <div class="min-h-screen p-2">

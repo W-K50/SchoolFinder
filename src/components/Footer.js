@@ -6,7 +6,7 @@ const Footer = () => {
       <div class="container mx-auto flex flex-col justify-around p-4 text-center md:p-10 lg:flex-row">
         <div class="flex flex-col justify-center lg:text-left">
           <p class="mb-1 text-sm font-medium tracking-widest uppercase text-gray-600">
-            Download our app. It's Free
+            Download our app. It&apos;s Free
           </p>
           <h1 class="py-2 text-3xl font-medium leading-tight title-font">
             School Finder
