@@ -5,7 +5,7 @@ import NavBar from "@/components/NavBar";
 import SearchBar from "@/components/SearchBar";
 import React, { useState } from "react";
 
-const index = () => {
+const SchoolIndex = () => {
   const [isEmailVerified, setEmailVerified] = useState(true);
 
   return (
@@ -26,4 +26,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default SchoolIndex;
